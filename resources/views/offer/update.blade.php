@@ -4,8 +4,8 @@
 </head>
 
 <div class="container">
-    <h2>Add a new offer</h2>
-    <form method="post" action="{{route('save')}}" enctype="multipart/form-data">
+    <h2>Update offer</h2>
+    <form method="post" action="{{route('update',$offer->id)}}">
         @csrf
         @if(Session::has('sucess'))
         <div class="alert alert-success" role="alert">
@@ -13,27 +13,22 @@
         </div>
         @endif
         <div class="form-group">
-            <label for="exampleInputEmail1">offer photo</label>
-            <input type="file" name="photo" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="offer name">
-            @error('photo')
-            <small class="form-text text-danger">{{$message}}</small>
-            @enderror
             <label for="exampleInputEmail1">offer name</label>
-            <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="offer name">
+            <input type="text" name="name" value="{{$offer->  name}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="offer name">
             @error('name')
             <small class="form-text text-danger">{{$message}}</small>
             @enderror
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">price</label>
-            <input type="text" name="price" class="form-control" id="exampleInputPassword1" placeholder="Price">
+            <input type="text" name="price" value="{{$offer->price}}" class="form-control" id="exampleInputPassword1" placeholder="Price">
             @error('price')
             <small class="form-text text-danger">{{$message}}</small>
             @enderror
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">offer details</label>
-            <input type="text" name="details" class="form-control" id="exampleInputPassword1" placeholder="offer details">
+            <input type="text" name="details" value="{{$offer->details}}" class="form-control" id="exampleInputPassword1" placeholder="offer details">
             @error('details')
             <small class="form-text text-danger">{{$message}}</small>
             @enderror

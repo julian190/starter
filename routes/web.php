@@ -11,9 +11,9 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/', function () {
+  return view('welcome');
+});
 //Route::get('/welcome',function (){
 //   return "welcome";
 //})->name("a");
@@ -33,4 +33,7 @@
 Route::group(['prefix'=>'offer'],function (){
    Route::get('create','OffersController@create');
    Route::post('post','OffersController@post')->name('save');
+   Route::get('edit/{id}','OffersController@edit')->name('edit');
+   Route::post('update/{id}','OffersController@update')->name('update');
+   Route::get('all','OffersController@all');
 });

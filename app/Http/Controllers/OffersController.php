@@ -6,29 +6,26 @@ use App\Http\Requests\OfferRequest;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Traitt\Julian;
 
 
 class OffersController extends Controller
 {
     //
-
+use Julian;
     public function create(){
 
         return view('offer.create');
     }
-
     public function post(OfferRequest $request){
 
-        $file_extenstion = $request -> photo -> getClientoriginalExtension();
-        $file_name = time() .".".$file_extenstion;
-        $path = "Images/offers";
-        $request ->photo ->move($path,$file_name);
+        $filename = $this->saveImage($request->photo,'Images/offers');
 
         Offer::create([
             'name'=>$request->name,
             'price'=>$request->price,
             'details'=>$request->details,
-            'Photo'=>$path."/".$file_name
+            'Photo'=>$filename
 
         ]);
 //        $validator = Validator::make($request->all());
@@ -44,12 +41,12 @@ class OffersController extends Controller
         return view('offer.all',compact('offers'));
 
     }
-  public function edit($id){
+    public function edit($id){
         $offer= Offer::select('id','name','price','details')->find($id);
         if(!$offer){return "not found";}
         return view('offer.update',compact('offer'));
   }
-  public function update(OfferRequest $request ,$id){
+    public function update(OfferRequest $request ,$id){
       $offer= Offer::select('id','name','price','details')->find($id);
       if(!$offer){return "not found";}
       $offer->update([
@@ -59,5 +56,26 @@ class OffersController extends Controller
       ]);
     return redirect()->back()->with('sucess','updated successfully');
   }
+    public function delete($ID){
+        $offer = Offer::find($ID);
+        if(!$offer){
+            return redirect()->back()->with(['error'=>'something went wrong']);
+        }
+        $offer->delete();
+        return redirect()->route('all')->with(['sucess'=>'deleted Sucessfully ']);
+  }
+    public function ajaxcreate(){
+        return view('ajaxoffer.create');
+    }
+    public function ajaxpost(OfferRequest $request){
+        $filename = $this->saveImage($request->photo,'Images/offers');
+        Offer::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'details'=>$request->details,
+            'Photo'=>$filename
+
+        ]);
+    }
 
 }

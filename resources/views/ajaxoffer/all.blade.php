@@ -1,8 +1,5 @@
-<head>
-    <title>All Offer</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
-
+@extends('layouts.app')
+@section('content')
 <div class="container">
     <h2>All offers</h2>
     @if(Session::has('error'))
@@ -41,3 +38,4 @@
         </tbody>
     </table>
 </div>
+@stop

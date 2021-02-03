@@ -23,17 +23,30 @@ Route::get('/', function () {
 //    return view('landing');
 //});
 //
-//Auth::routes();
+Auth::routes();
 //
 //Route::get('/home', 'HomeController@index')->name('home');
 //
 //Auth::routes();
 //
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::group(['prefix'=>'offer'],function (){
+Route::group(['prefix'=>'offers'],function (){
    Route::get('create','OffersController@create');
    Route::post('post','OffersController@post')->name('save');
    Route::get('edit/{id}','OffersController@edit')->name('edit');
    Route::post('update/{id}','OffersController@update')->name('update');
-   Route::get('all','OffersController@all');
+   Route::get('all','OffersController@all')->name('all');
+   Route::get('delete/{id}','OffersController@delete')->name('delete');
 });
+
+
+############################################
+//              Start Ajax routes
+###########################################
+Route::group(['prefix'=>'ajaxoffers'],function(){
+    Route::get('create','OffersController@ajaxcreate');
+    Route::post('post','OffersController@ajaxpost')->name('ajaxsave');
+});
+################################################
+//              End Ajax Routes
+################################################

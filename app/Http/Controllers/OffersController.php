@@ -74,7 +74,6 @@ use Julian;
             'price'=>$request->price,
             'details'=>$request->details,
             'Photo'=>$filename
-
         ]);
     }
 

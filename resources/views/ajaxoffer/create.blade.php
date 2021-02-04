@@ -42,29 +42,24 @@
 @stop
 @section('scripts')
     <script>
-        $(document).on('click','#saveoffer',function (e) {
-             //e.preventDefault();
-            // formx = $("#offerForm")[0];
-            // var formdata = new FormData(formx);
-            // req =
+        $(document).on('submit','#offerForm',function (e) {
+            e.preventDefault();
+            var formdata = new FormData(this);
             $.ajax({
-                url:'{{route('ajaxsave')}}',
                 type:'post',
                 enctype:'multipart/form-data',
-                data: new FormData(document.getElementById('offerForm')),
-                processData:false,
+                url:'{{Route('ajaxsave')}}',
+                data:formdata,
+                processData: false,
+                contentType:false,
                 cache:false,
-        {{--            {--}}
-        {{--            '_token':'{{csrf_token()}}',--}}
-        {{--            'name':$("input[name=name]").val(),--}}
-        {{--            'price':$("input[name=price]").val(),--}}
-        {{--            'details':$("input[name=details]").val(),--}}
-        {{--            'Photo':$("input [name=photo]").val()--}}
+                success:function (data) {
 
-        {{--},--}}
-                success:'success',
-                error:'error'
+                },
+                error:function (reject) {
+
+                }
             });
-        });
+        })
     </script>
 @stop

@@ -69,12 +69,24 @@ use Julian;
     }
     public function ajaxpost(OfferRequest $request){
         $filename = $this->saveImage($request->photo,'Images/offers');
-        Offer::create([
+        $offer = Offer::create([
             'name'=>$request->name,
             'price'=>$request->price,
             'details'=>$request->details,
             'Photo'=>$filename
         ]);
+        if($offer)
+        {
+        return response()->json([
+           'status'=>true,
+           'msg'=>"Record added successfully"]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'msg'=>"Something went wrong"]);
+        }
+
+
     }
 
 }

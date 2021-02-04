@@ -4,11 +4,14 @@
     <h2>Add a new offer</h2>
     <form id="offerForm" action="" method="post" enctype="multipart/form-data">
         @csrf
-        @if(Session::has('sucess'))
-        <div class="alert alert-success" role="alert">
-            {{Session::get('sucess')}}
+
+        <div class="alert alert-success" role="alert" style="display: none" id="sucess">
+                Record added successfully
         </div>
-        @endif
+        <div class="alert alert-danger" role="alert" style="display: none" id="fail">
+                Something went wrong
+        </div>
+
         <div class="form-group">
             <label for="exampleInputEmail1">offer photo</label>
             <input type="file" name="photo" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="offer name">
@@ -54,11 +57,14 @@
                 contentType:false,
                 cache:false,
                 success:function (data) {
-
-                },
-                error:function (reject) {
-
+                    if(data.status==true){
+                       $('#sucess').show();
+                    }
                 }
+
+
+
+
             });
         })
     </script>

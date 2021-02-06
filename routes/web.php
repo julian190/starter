@@ -46,6 +46,10 @@ Route::group(['prefix'=>'offers'],function (){
 Route::group(['prefix'=>'ajaxoffers'],function(){
     Route::get('create','OffersController@ajaxcreate');
     Route::post('post','OffersController@ajaxpost')->name('ajaxsave');
+    Route::get('all','OffersController@ajaxall');
+    Route::post('delete','OffersController@ajaxdelete')->name('ajaxdelete');
+    Route::get('edit/{id}','OffersController@ajaxedit')->name('ajaxedit');
+    Route::post('update',"OffersController@ajaxupdate")->name("ajaxupdate");
 });
 ################################################
 //              End Ajax Routes

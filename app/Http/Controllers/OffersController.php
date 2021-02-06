@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OfferRequest;
 use App\Models\Offer;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Traitt\Julian;
@@ -88,5 +89,34 @@ use Julian;
 
 
     }
-
+    public function ajaxall(){
+        $offers = Offer::select('id','name','details','price')->get();
+        return view('ajaxoffer.all',compact('offers'));
+    }
+    public function ajaxdelete(Request $request){
+        $offer = Offer::find($request->id);
+        if(!$offer){
+            return response()->json([
+                'status'=>false,
+                'msg'=>'record not found'
+            ]);
+        }
+        $offer->delete();
+        return response()->json([
+            'status'=>true,
+            'msg'=>'Record deleted successfully',
+            'id'=>$request->id
+        ]);
+    }
+    public function ajaxedit($id){
+        $offer= Offer::select('id','name','price','details')->find($id);
+        if(!$offer){return "not found";}
+        return view('ajaxoffer.update',compact('offer'));
+    }
+    public function ajaxupdate(OfferRequest $request ){
+        $offer= Offer::find($request->id);
+        if(!$offer){return response()->json(['status'=>false,'msg'=>'record not found']);}
+        $offer->update($request->all());
+        return response()->json(['status'=>true,'msg'=>'updated successfully']);
+    }
 }

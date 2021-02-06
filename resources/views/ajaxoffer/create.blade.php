@@ -60,12 +60,13 @@
                     if(data.status==true){
                        $('#sucess').show();
                     }
+                },
+                error:function (data) {
+                    if(data.status==false){
+                        $('fail').show();
+                    }
                 }
-
-
-
-
             });
-        })
+        });
     </script>
 @stop

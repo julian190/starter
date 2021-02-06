@@ -1,18 +1,12 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <h2>All offers</h2>
-    @if(Session::has('error'))
-        <div class="alert alert-danger" role="alert">
-            {{Session::get('error')}}
-        </div>
-        @endif
-
-    @if(Session::has('sucess'))
-        <div class="alert alert-success" role="alert">
-            {{Session::get('sucess')}}
-        </div>
-        @endif
+    <div class="alert alert-success" role="alert" style="display: none" id="sucess">
+        Record added successfully
+    </div>
+    <div class="alert alert-danger" role="alert" style="display: none" id="fail">
+        Something went wrong
+    </div>
     <table class="table">
         <thead>
         <tr>
@@ -25,13 +19,13 @@
         </thead>
         <tbody>
         @foreach($offers as $offer)
-        <tr>
+        <tr class="offerrow{{$offer->id}}">
             <th scope="row">{{$offer->id}}</th>
             <td>{{$offer->name}}</td>
             <td>{{$offer->price}}</td>
             <td>{{$offer->details}}</td>
-            <td><a class="btn btn-primary" href="{{route('edit',$offer->id)}}">Edit</a>
-            <a class="btn btn-danger" href="{{route('delete',$offer->id)}}">Delete</a> </td>
+            <td><a class="btn btn-primary" href="{{route('ajaxedit',$offer->id)}}">Edit</a>
+            <a class="btn btn-danger delete" offer_id="{{$offer->id}}" href="">Delete</a> </td>
         </tr>
         @endforeach
 
@@ -39,3 +33,31 @@
     </table>
 </div>
 @stop
+@section('scripts')
+    <script>
+        $(document).on('click','.delete',function(e){
+            e.preventDefault();
+           let id = $(this).attr('offer_id');
+           $.ajax({
+               type: 'post',
+               url:"{{Route('ajaxdelete')}}",
+               data:{
+                   '_token':"{{csrf_token()}}",
+                   'id':id
+               },
+               success:function (data){
+                if(data.status == true){
+                    $('#sucess').show();
+                    $(".offerrow"+data.id).remove();
+                }
+               },
+               error:function (data) {
+                if(data.status == false){
+                    $('#fail').show();
+                }
+               }
+               });
+        });
+    </script>
+    @stop
+

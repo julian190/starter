@@ -13,6 +13,8 @@
 /*
         starting test routes
  */
+
+define("PAGINATION_ITEMS",2);
 Route::get('/', function () {
   return view('welcome');
 });
@@ -42,7 +44,9 @@ Route::group(['prefix'=>'offers'],function (){
    Route::get('edit/{id}','OffersController@edit')->name('edit');
    Route::post('update/{id}','OffersController@update')->name('update');
    Route::get('all','OffersController@all')->name('all');
+   Route::get('allPagenated','OffersController@allPagenated')->name('all.pagenated');
    Route::get('delete/{id}','OffersController@delete')->name('delete');
+   Route::get('nullphotos','OffersController@nullphotos');
 });
 ############################################
 //              End Offer routes
@@ -83,7 +87,22 @@ Route::post('/admin/login','Auth\AdultController@CheckAdminLogin')->name('check.
 ############################################
 //              start Models relation routes
 ############################################
+
+// this for one to many relationshit
 Route::get('/has-one','RelationsController@hasone');
+
+
+//this many to many relationshit
+Route::get('/hospitals','RelationsController@hospitals')->name('getAllHospitals');
+Route::get('/doctors/{id}','RelationsController@doctors')->name('getDoctors');
+Route::get('/deletehospital/{id}','RelationsController@deleteDoctor')->name('hospital.delete');
+Route::get('/getspecialists/{id}','RelationsController@getdocservices')->name('doctor.service');
+Route::post('/saveServicesToDoctor','RelationsController@saveServicesToDoctor')->name('saveservicestodoctor');
+
+
+Route::get('/doctor-service/{id}','RelationsController@serviceDoctor');
+
+
 ############################################
 //              End Models relation routes
 ############################################

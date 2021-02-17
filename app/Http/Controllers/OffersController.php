@@ -119,4 +119,11 @@ use Julian;
         $offer->update($request->all());
         return response()->json(['status'=>true,'msg'=>'updated successfully']);
     }
+    public function allPagenated(){
+        $offers = Offer::select('id','name','details','price')->paginate(PAGINATION_ITEMS);
+        return view('offer.allpagenated',compact('offers'));
+    }
+    public function nullphotos(){
+        return $offers = Offer::NullPhoto()->get();
+    }
 }
